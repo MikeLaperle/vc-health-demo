@@ -30,7 +30,7 @@ async function requestIssuance(manifestUrl, type) {
     type: type,
     manifest: manifestUrl,
     callback: {
-      url: "https://cms-vc-demo.azurewebsites.net/api/callback",
+      url: "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/api/callback",
       state: "12345"
     }
   };
@@ -57,7 +57,7 @@ async function requestIssuance(manifestUrl, type) {
 app.post('/api/issue/johns-hopkins', async (req, res) => {
   try {
     const result = await requestIssuance(
-      "https://cms-vc-demo.azurewebsites.net/manifests/johns-hopkins/manifest.json",
+      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/johns-hopkins/manifest.json",
       "MedicalDoctorCredential"
     );
     res.json(result);
@@ -67,7 +67,7 @@ app.post('/api/issue/johns-hopkins', async (req, res) => {
 app.post('/api/issue/florida-license', async (req, res) => {
   try {
     const result = await requestIssuance(
-      "https://cms-vc-demo.azurewebsites.net/manifests/florida-license/manifest.json",
+      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/florida-license/manifest.json",
       "FloridaMedicalLicenseCredential"
     );
     res.json(result);
@@ -77,7 +77,7 @@ app.post('/api/issue/florida-license', async (req, res) => {
 app.post('/api/issue/unitedhealth', async (req, res) => {
   try {
     const result = await requestIssuance(
-      "https://cms-vc-demo.azurewebsites.net/manifests/unitedhealth/manifest.json",
+      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/unitedhealth/manifest.json",
       "UnitedHealthEmployeeCredential"
     );
     res.json(result);
@@ -87,7 +87,7 @@ app.post('/api/issue/unitedhealth', async (req, res) => {
 app.post('/api/issue/ama', async (req, res) => {
   try {
     const result = await requestIssuance(
-      "https://cms-vc-demo.azurewebsites.net/manifests/ama/manifest.json",
+      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/ama/manifest.json",
       "AMACredential"
     );
     res.json(result);
@@ -97,7 +97,7 @@ app.post('/api/issue/ama', async (req, res) => {
 app.post('/api/issue/cms', async (req, res) => {
   try {
     const result = await requestIssuance(
-      "https://cms-vc-demo.azurewebsites.net/manifests/cms/manifest.json",
+      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/cms/manifest.json",
       "CMSProviderCredential"
     );
     res.json(result);
@@ -107,7 +107,7 @@ app.post('/api/issue/cms', async (req, res) => {
 app.post('/api/issue/adventhealth', async (req, res) => {
   try {
     const result = await requestIssuance(
-      "https://cms-vc-demo.azurewebsites.net/manifests/adventhealth/manifest.json",
+      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/adventhealth/manifest.json",
       "SurgicalPrivilegesCredential"
     );
     res.json(result);
