@@ -18,20 +18,29 @@
     <div id="status"></div>
   </div>
 
-  <script>
-    async function startIssuance() {
-      const status = document.getElementById('status');
-      status.textContent = "Requesting issuance payload...";
-      try {
-        const response = await fetch('/api/issue/unitedhealth', { method: 'GET' });
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        const data = await response.json();
-        status.textContent = "Issuance request created. Check Log Stream for details.";
-        console.log("Issuance payload:", data);
-      } catch (err) {
-        status.textContent = "Error: " + err.message;
+<script>
+  async function startIssuance() {
+    const status = document.getElementById('status');
+    status.textContent = "Requesting issuance payload...";
+    try {
+      const response = await fetch('/api/issue/unitedhealth');
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      const data = await response.json();
+
+      // Show QR code if present
+      if (data.qrCode) {
+        const img = document.createElement('img');
+        img.src = data.qrCode;
+        img.alt = "Scan with Authenticator";
+        status.innerHTML = "";
+        status.appendChild(img);
+      } else {
+        status.textContent = "Got response: " + JSON.stringify(data);
       }
+    } catch (err) {
+      status.textContent = "Error: " + err.message;
     }
-  </script>
+  }
+</script>
 </body>
 </html>
