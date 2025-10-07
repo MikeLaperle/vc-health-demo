@@ -10,12 +10,16 @@ app.use(express.json());
 // Static file serving
 // ------------------------------
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/users.json', express.static(path.join(__dirname, 'users.json')));
+
+// Serve users.json from /data folder
+app.get('/users.json', (req, res) => {
+  res.sendFile(path.join(__dirname, 'data', 'users.json'));
+});
 
 // ------------------------------
 // Load demo users and track active user
 // ------------------------------
-const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'users.json')));
+const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'users.json')));
 let activeUserId = users[0].id; // default to first user
 
 app.post('/api/setUser/:id', (req, res) => {

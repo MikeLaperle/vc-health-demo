@@ -39,8 +39,10 @@
   </div>
 
   <script>
-    async function loadUsers() {
+  async function loadUsers() {
+    try {
       const res = await fetch('/users.json');
+      if (!res.ok) throw new Error("HTTP " + res.status);
       const users = await res.json();
       const select = document.getElementById('userSelect');
       users.forEach(u => {
@@ -49,15 +51,18 @@
         opt.textContent = u.displayName;
         select.appendChild(opt);
       });
+    } catch (err) {
+      console.error("Failed to load users:", err);
     }
+  }
 
-    async function setUser() {
-      const userId = document.getElementById('userSelect').value;
-      await fetch('/api/setUser/' + userId, { method: 'POST' });
-      alert("Active user set to " + userId);
-    }
+  async function setUser() {
+    const userId = document.getElementById('userSelect').value;
+    await fetch('/api/setUser/' + userId, { method: 'POST' });
+    alert("Active user set to " + userId);
+  }
 
-    loadUsers();
-  </script>
+  loadUsers();
+</script>
 </body>
 </html>
