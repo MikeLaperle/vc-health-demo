@@ -6,6 +6,8 @@
     body { font-family: Arial, sans-serif; background-color: #005DAA; color: #fff; padding: 60px; }
     .card { background:#fff; color:#000; padding:20px; border-radius:8px; max-width:400px; }
     button { background:#005DAA; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; }
+    #status { margin-top: 12px; font-size: 0.9rem; }
+    pre { background:#f4f4f4; padding:10px; border-radius:6px; overflow:auto; max-height:200px; }
   </style>
 </head>
 <body>
@@ -16,13 +18,38 @@
     <h2>UnitedHealth Employee Credential</h2>
     <p>Issued by UnitedHealth Group.</p>
     <button onclick="startIssuance()">Get Credential</button>
+    <div id="status"></div>
+    <pre id="payload" hidden></pre>
   </div>
 
   <script>
     async function startIssuance() {
-      const response = await fetch('/api/issue/unitedhealth', { method: 'POST' });
-      const data = await response.json();
-      alert('Issuance started. Scan QR code: ' + data.url);
+      const status = document.getElementById('status');
+      const payload = document.getElementById('payload');
+      status.textContent = "Requesting issuance payload...";
+      payload.hidden = true;
+
+      try {
+        const response = await fetch('/api/issue/unitedhealth', { method: 'GET' }); // ✅ match your app.js
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const data = await response.json();
+
+        status.textContent = "Issuance request created. Scan with Authenticator.";
+        payload.hidden = false;
+        payload.textContent = JSON.stringify(data, null, 2);
+
+        // Optional: show the URL in a clickable link
+        if (data.url) {
+          const a = document.createElement('a');
+          a.href = data.url;
+          a.textContent = "Open issuance URL";
+          a.target = "_blank";
+          status.appendChild(document.createElement('br'));
+          status.appendChild(a);
+        }
+      } catch (err) {
+        status.textContent = "Error: " + err.message;
+      }
     }
   </script>
 </body>
