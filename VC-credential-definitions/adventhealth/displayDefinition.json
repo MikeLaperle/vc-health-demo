@@ -2,22 +2,25 @@
   "locale": "en-US",
   "card": {
     "title": "Surgical Privileges Credential",
-    "issuedBy": "AdventHealth Hospital",
-    "backgroundColor": "#006B54",
+    "issuedBy": "AdventHealth",
+    "backgroundColor": "#0D47A1",
     "textColor": "#FFFFFF",
     "logo": {
       "uri": "https://vcdemoassets.blob.core.windows.net/logos/adventhealth.png",
       "description": "AdventHealth Logo"
     },
-    "description": "Credential verifying surgical privileges at AdventHealth, based on prior verified credentials."
+    "description": "Credential verifying surgical privileges at AdventHealth."
   },
   "consent": {
     "title": "Accept Surgical Privileges Credential",
-    "instructions": "Present required credentials to receive surgical privileges."
+    "instructions": "Confirm your surgical privileges to receive this credential."
   },
   "claims": [
-    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
-    { "claim": "vc.credentialSubject.privilegeLevel", "label": "Privilege Level", "type": "String" },
-    { "claim": "vc.credentialSubject.verifiedSources", "label": "Verified Credential Sources", "type": "String" }
+    { "claim": "vc.credentialSubject.firstName", "label": "First Name", "type": "String" },
+    { "claim": "vc.credentialSubject.lastName", "label": "Last Name", "type": "String" },
+    { "claim": "vc.credentialSubject.npiNumber", "label": "NPI Number", "type": "String" },
+    { "claim": "vc.credentialSubject.privilegeType", "label": "Privilege Type", "type": "String" },
+    { "claim": "vc.credentialSubject.hospital", "label": "Hospital", "type": "String" },
+    { "claim": "vc.credentialSubject.expirationDate", "label": "Expiration Date", "type": "Date" }
   ]
 }

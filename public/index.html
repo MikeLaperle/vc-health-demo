@@ -1,56 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Verified Credentials Demo Hub</title>
+  <title>Credential Demo Hub</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      background: #333;
-      color: #fff;
-      padding: 20px;
-    }
-    h1 { margin: 0; }
-    p { margin: 10px 0 20px; }
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 40px auto;
-      max-width: 800px;
-    }
-    .menu a {
+    body { font-family: Arial, sans-serif; padding: 40px; background:#f5f5f5; }
+    h2 { margin-bottom: 20px; }
+    select, button { margin: 10px 0; padding: 8px; }
+    .links { margin-top: 30px; }
+    .links a {
       display: block;
+      margin: 8px 0;
+      padding: 10px;
       background: #005DAA;
       color: #fff;
       text-decoration: none;
-      margin: 10px;
-      padding: 20px;
-      border-radius: 8px;
-      width: 220px;
-      transition: background 0.3s;
+      border-radius: 4px;
+      width: 320px;
     }
-    .menu a:hover { background: #003f6f; }
+    .links a:hover { background: #003f73; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Verified Credentials Demo</h1>
-    <p>Select a credential issuer below. Each will open in a new tab with its own branding and issuance flow.</p>
-  </header>
+  <h2>Credential Demo Hub</h2>
 
-  <div class="menu">
-    <a href="/johns-hopkins" target="_blank">Johns Hopkins<br><small>Medical Doctor Credential</small></a>
-    <a href="/florida-license" target="_blank">Florida Board<br><small>Medical License</small></a>
-    <a href="/unitedhealth" target="_blank">UnitedHealth<br><small>Employee Credential</small></a>
-    <a href="/ama" target="_blank">AMA<br><small>Membership / CEU</small></a>
-    <a href="/cms" target="_blank">CMS<br><small>Provider Credential</small></a>
-    <a href="/adventhealth" target="_blank">AdventHealth<br><small>Surgical Privileges</small></a>
+  <label for="userSelect">Choose demo user:</label>
+  <select id="userSelect"></select>
+  <button onclick="setUser()">Set Active User</button>
+
+  <div class="links">
+    <h3>Credential Issuance Pages</h3>
+    <a href="/unitedhealth/index.html" target="_blank">UnitedHealth Employee Credential</a>
+    <a href="/florida-license/index.html" target="_blank">Florida Medical License</a>
+    <a href="/johns-hopkins/index.html" target="_blank">Johns Hopkins Medical Doctor</a>
+    <a href="/ama/index.html" target="_blank">AMA Membership Credential</a>
+    <a href="/cms/index.html" target="_blank">CMS Provider Credential</a>
+    <a href="/adventhealth/index.html" target="_blank">AdventHealth Surgical Privileges</a>
+    <!-- Later you can add the meta credential here -->
   </div>
+
+  <script>
+    async function loadUsers() {
+      const res = await fetch('/users.json');
+      const users = await res.json();
+      const select = document.getElementById('userSelect');
+      users.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.id;
+        opt.textContent = u.displayName;
+        select.appendChild(opt);
+      });
+    }
+
+    async function setUser() {
+      const userId = document.getElementById('userSelect').value;
+      await fetch('/api/setUser/' + userId, { method: 'POST' });
+      alert("Active user set to " + userId);
+    }
+
+    loadUsers();
+  </script>
 </body>
 </html>

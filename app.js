@@ -1,6 +1,7 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
@@ -9,7 +10,24 @@ app.use(express.json());
 // Static file serving
 // ------------------------------
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/manifests', express.static(path.join(__dirname, 'manifests')));
+app.use('/users.json', express.static(path.join(__dirname, 'users.json')));
+
+// ------------------------------
+// Load demo users and track active user
+// ------------------------------
+const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'users.json')));
+let activeUserId = users[0].id; // default to first user
+
+app.post('/api/setUser/:id', (req, res) => {
+  const id = req.params.id;
+  if (users.find(u => u.id === id)) {
+    activeUserId = id;
+    console.log(`>>> Active user set to ${id}`);
+    res.sendStatus(200);
+  } else {
+    res.status(400).send("Unknown user");
+  }
+});
 
 // ------------------------------
 // Managed Identity Token Fetch (App Service)
@@ -34,6 +52,65 @@ async function getAccessToken() {
 }
 
 // ------------------------------
+// Claims builder
+// ------------------------------
+function buildClaims(type, user) {
+  switch (type) {
+    case "UnitedHealthEmployeeCredential":
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        employeeId: user.employeeId,
+        department: user.department,
+        jobTitle: user.jobTitle
+      };
+    case "FloridaMedicalLicenseCredential":
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        licenseNumber: user.licenseNumber,
+        licenseType: user.licenseType,
+        expirationDate: user.licenseExpiration
+      };
+    case "MedicalDoctorCredential":
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        npiNumber: user.npiNumber,
+        specialty: user.specialty,
+        hospitalAffiliation: user.hospitalAffiliation
+      };
+    case "AMACredential":
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        amaId: user.amaId,
+        membershipStatus: user.membershipStatus,
+        membershipLevel: user.membershipLevel
+      };
+    case "CMSProviderCredential":
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        npiNumber: user.npiNumber,
+        cmsProviderId: user.cmsProviderId,
+        practiceLocation: user.practiceLocation
+      };
+    case "SurgicalPrivilegesCredential":
+      return {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        npiNumber: user.npiNumber,
+        privilegeType: user.privilegeType,
+        hospital: user.hospital,
+        expirationDate: user.privilegeExpiration
+      };
+    default:
+      return {};
+  }
+}
+
+// ------------------------------
 // Issuance Request Helper
 // ------------------------------
 async function requestIssuance(manifestUrl, type) {
@@ -43,22 +120,23 @@ async function requestIssuance(manifestUrl, type) {
   if (!authority) throw new Error('Missing AUTHORITY_DID in environment.');
 
   const token = await getAccessToken();
+  const user = users.find(u => u.id === activeUserId);
 
   const payload = {
-    authority, // from env, should match DID in admin blade
-    type,      // must match contract type exactly
+    authority,
+    type,
     manifest: manifestUrl,
     callback: {
       url: 'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/api/callback',
       state: '12345',
       headers: {
-        // optional: set if you want to validate callbacks
         'api-key': process.env.CALLBACK_API_KEY || 'demo-api-key'
       }
     },
     registration: {
       clientName: 'CMS VC Demo'
-    }
+    },
+    claims: buildClaims(type, user)
   };
 
   const apiUrl = 'https://verifiedid.did.msidentity.com/v1.0/verifiableCredentials/createIssuanceRequest';
@@ -78,7 +156,6 @@ async function requestIssuance(manifestUrl, type) {
   }
   return response.json();
 }
-
 
 // ------------------------------
 // API Routes for Each Credential
@@ -109,8 +186,6 @@ function addIssuanceRoute(pathSuffix, manifestUrl, type) {
 // ------------------------------
 // Define each credential route
 // ------------------------------
-// Just replace <contractId> with the actual contract ID from Entra Verified ID
-
 addIssuanceRoute(
   'unitedhealth',
   'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/dbd9bb8d-4f0a-ba5c-284a-bdc97fac6db6/manifest',
@@ -159,4 +234,4 @@ app.post('/api/callback', (req, res) => {
 // Start Server
 // ------------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`CMS-VC-demo running on port ${PORT}`));
+app.listen(PORT, () => console.log(`CMS-VC-demo running

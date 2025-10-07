@@ -1,23 +1,25 @@
 {
   "locale": "en-US",
   "card": {
-    "title": "AMA Verified Credential",
+    "title": "AMA Membership Credential",
     "issuedBy": "American Medical Association",
-    "backgroundColor": "#4B2E83",
+    "backgroundColor": "#6A1B9A",
     "textColor": "#FFFFFF",
     "logo": {
       "uri": "https://vcdemoassets.blob.core.windows.net/logos/ama.png",
       "description": "AMA Logo"
     },
-    "description": "Credential verifying AMA membership and CEU completion."
+    "description": "Credential verifying AMA membership."
   },
   "consent": {
     "title": "Accept AMA Credential",
-    "instructions": "Sign in and confirm membership details to receive this credential."
+    "instructions": "Confirm your AMA membership details to receive this credential."
   },
   "claims": [
-    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
-    { "claim": "vc.credentialSubject.memberId", "label": "AMA Member ID", "type": "String" },
-    { "claim": "vc.credentialSubject.ceuCredits", "label": "CEU Credits Earned", "type": "Number" }
+    { "claim": "vc.credentialSubject.firstName", "label": "First Name", "type": "String" },
+    { "claim": "vc.credentialSubject.lastName", "label": "Last Name", "type": "String" },
+    { "claim": "vc.credentialSubject.amaId", "label": "AMA ID", "type": "String" },
+    { "claim": "vc.credentialSubject.membershipStatus", "label": "Membership Status", "type": "String" },
+    { "claim": "vc.credentialSubject.membershipLevel", "label": "Membership Level", "type": "String" }
   ]
 }

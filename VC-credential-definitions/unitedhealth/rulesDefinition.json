@@ -1,15 +1,40 @@
 {
   "attestations": {
     "selfIssued": {
-      "claims": [
-        "vc.credentialSubject.fullName",
-        "vc.credentialSubject.employeeId",
-        "vc.credentialSubject.department"
-      ]
+      "mapping": [
+        {
+          "inputClaim": "firstName",
+          "outputClaim": "firstName",
+          "required": true
+        },
+        {
+          "inputClaim": "lastName",
+          "outputClaim": "lastName",
+          "required": true
+        },
+        {
+          "inputClaim": "employeeId",
+          "outputClaim": "employeeId",
+          "required": true
+        },
+        {
+          "inputClaim": "department",
+          "outputClaim": "department",
+          "required": false
+        },
+        {
+          "inputClaim": "jobTitle",
+          "outputClaim": "jobTitle",
+          "required": false
+        }
+      ],
+      "required": true
     }
   },
   "validityInterval": 15552000,
   "vc": {
-    "type": ["UnitedHealthEmployeeCredential"]
+    "type": [
+      "UnitedHealthEmployeeCredential"
+    ]
   }
 }

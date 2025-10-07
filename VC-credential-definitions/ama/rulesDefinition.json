@@ -1,15 +1,16 @@
 {
   "attestations": {
     "selfIssued": {
-      "claims": [
-        "vc.credentialSubject.fullName",
-        "vc.credentialSubject.memberId",
-        "vc.credentialSubject.ceuCredits"
-      ]
+      "mapping": [
+        { "inputClaim": "firstName", "outputClaim": "firstName", "required": true },
+        { "inputClaim": "lastName", "outputClaim": "lastName", "required": true },
+        { "inputClaim": "amaId", "outputClaim": "amaId", "required": true },
+        { "inputClaim": "membershipStatus", "outputClaim": "membershipStatus", "required": true },
+        { "inputClaim": "membershipLevel", "outputClaim": "membershipLevel", "required": false }
+      ],
+      "required": true
     }
   },
   "validityInterval": 15552000,
-  "vc": {
-    "type": ["AMACredential"]
-  }
+  "vc": { "type": [ "AMACredential" ] }
 }

@@ -1,23 +1,25 @@
 {
   "locale": "en-US",
   "card": {
-    "title": "CMS Medical Provider Credential",
+    "title": "CMS Provider Credential",
     "issuedBy": "Centers for Medicare & Medicaid Services",
-    "backgroundColor": "#2E8540",
+    "backgroundColor": "#2E7D32",
     "textColor": "#FFFFFF",
     "logo": {
       "uri": "https://vcdemoassets.blob.core.windows.net/logos/cms.png",
       "description": "CMS Logo"
     },
-    "description": "Credential verifying provider registration with CMS."
+    "description": "Credential verifying CMS provider enrollment."
   },
   "consent": {
-    "title": "Accept CMS Medical Provider Credential",
-    "instructions": "Sign in and confirm provider details to receive this credential."
+    "title": "Accept CMS Provider Credential",
+    "instructions": "Confirm your CMS provider details to receive this credential."
   },
   "claims": [
-    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.firstName", "label": "First Name", "type": "String" },
+    { "claim": "vc.credentialSubject.lastName", "label": "Last Name", "type": "String" },
     { "claim": "vc.credentialSubject.npiNumber", "label": "NPI Number", "type": "String" },
-    { "claim": "vc.credentialSubject.providerType", "label": "Provider Type", "type": "String" }
+    { "claim": "vc.credentialSubject.cmsProviderId", "label": "CMS Provider ID", "type": "String" },
+    { "claim": "vc.credentialSubject.practiceLocation", "label": "Practice Location", "type": "String" }
   ]
 }

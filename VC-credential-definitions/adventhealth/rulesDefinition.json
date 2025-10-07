@@ -1,15 +1,17 @@
 {
   "attestations": {
-    "presentations": [
-      { "credentialType": "MedicalDoctorCredential", "required": true },
-      { "credentialType": "FloridaMedicalLicenseCredential", "required": true },
-      { "credentialType": "UnitedHealthEmployeeCredential", "required": true },
-      { "credentialType": "AMACredential", "required": true },
-      { "credentialType": "CMSProviderCredential", "required": true }
-    ]
+    "selfIssued": {
+      "mapping": [
+        { "inputClaim": "firstName", "outputClaim": "firstName", "required": true },
+        { "inputClaim": "lastName", "outputClaim": "lastName", "required": true },
+        { "inputClaim": "npiNumber", "outputClaim": "npiNumber", "required": true },
+        { "inputClaim": "privilegeType", "outputClaim": "privilegeType", "required": true },
+        { "inputClaim": "hospital", "outputClaim": "hospital", "required": true },
+        { "inputClaim": "expirationDate", "outputClaim": "expirationDate", "required": false }
+      ],
+      "required": true
+    }
   },
   "validityInterval": 15552000,
-  "vc": {
-    "type": ["SurgicalPrivilegesCredential"]
-  }
+  "vc": { "type": [ "SurgicalPrivilegesCredential" ] }
 }

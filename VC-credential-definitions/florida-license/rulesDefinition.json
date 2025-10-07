@@ -1,15 +1,16 @@
 {
   "attestations": {
     "selfIssued": {
-      "claims": [
-        "vc.credentialSubject.fullName",
-        "vc.credentialSubject.licenseNumber",
-        "vc.credentialSubject.expirationDate"
-      ]
+      "mapping": [
+        { "inputClaim": "firstName", "outputClaim": "firstName", "required": true },
+        { "inputClaim": "lastName", "outputClaim": "lastName", "required": true },
+        { "inputClaim": "licenseNumber", "outputClaim": "licenseNumber", "required": true },
+        { "inputClaim": "licenseType", "outputClaim": "licenseType", "required": true },
+        { "inputClaim": "expirationDate", "outputClaim": "expirationDate", "required": true }
+      ],
+      "required": true
     }
   },
   "validityInterval": 15552000,
-  "vc": {
-    "type": ["FloridaMedicalLicenseCredential"]
-  }
+  "vc": { "type": [ "FloridaMedicalLicenseCredential" ] }
 }

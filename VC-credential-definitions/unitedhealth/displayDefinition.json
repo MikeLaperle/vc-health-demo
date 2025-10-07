@@ -13,11 +13,13 @@
   },
   "consent": {
     "title": "Accept UnitedHealth Employee Credential",
-    "instructions": "Sign in and confirm employment details to receive this credential."
+    "instructions": "Confirm your employment details to receive this credential."
   },
   "claims": [
-    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.firstName", "label": "First Name", "type": "String" },
+    { "claim": "vc.credentialSubject.lastName", "label": "Last Name", "type": "String" },
     { "claim": "vc.credentialSubject.employeeId", "label": "Employee ID", "type": "String" },
-    { "claim": "vc.credentialSubject.department", "label": "Department", "type": "String" }
+    { "claim": "vc.credentialSubject.department", "label": "Department", "type": "String" },
+    { "claim": "vc.credentialSubject.jobTitle", "label": "Job Title", "type": "String" }
   ]
 }
