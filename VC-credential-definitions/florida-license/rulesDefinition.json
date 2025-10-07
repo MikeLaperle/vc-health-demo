@@ -1,16 +1,20 @@
 {
   "attestations": {
-    "selfIssued": {
-      "mapping": [
-        { "inputClaim": "firstName", "outputClaim": "firstName", "required": true },
-        { "inputClaim": "lastName", "outputClaim": "lastName", "required": true },
-        { "inputClaim": "licenseNumber", "outputClaim": "licenseNumber", "required": true },
-        { "inputClaim": "licenseType", "outputClaim": "licenseType", "required": true },
-        { "inputClaim": "expirationDate", "outputClaim": "expirationDate", "required": true }
-      ],
-      "required": true
-    }
+    "idTokenHints": [
+      {
+        "required": true,
+        "mapping": [
+          { "outputClaim": "firstName", "inputClaim": "firstName" },
+          { "outputClaim": "lastName", "inputClaim": "lastName" },
+          { "outputClaim": "licenseNumber", "inputClaim": "licenseNumber" },
+          { "outputClaim": "licenseType", "inputClaim": "licenseType" },
+          { "outputClaim": "licenseExpiration", "inputClaim": "licenseExpiration" }
+        ]
+      }
+    ]
   },
   "validityInterval": 15552000,
-  "vc": { "type": [ "FloridaMedicalLicenseCredential" ] }
+  "vc": {
+    "type": [ "FloridaMedicalLicenseCredential" ]
+  }
 }

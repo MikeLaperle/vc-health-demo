@@ -10,6 +10,8 @@ app.use(express.json());
 // Static file serving
 // ------------------------------
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
+app.use('/logos', express.static(path.join(__dirname, 'public/logos')));
 
 // Serve users.json from /data folder
 app.get('/users.json', (req, res) => {
@@ -74,15 +76,16 @@ function buildClaims(type, user) {
         lastName: user.lastName,
         licenseNumber: user.licenseNumber,
         licenseType: user.licenseType,
-        expirationDate: user.licenseExpiration
+        licenseExpiration: user.licenseExpiration
       };
-    case "MedicalDoctorCredential":
+    case "MedicalDegreeCredential":
       return {
         firstName: user.firstName,
         lastName: user.lastName,
-        npiNumber: user.npiNumber,
-        specialty: user.specialty,
-        hospitalAffiliation: user.hospitalAffiliation
+        degreeType: user.degreeType,
+        fieldOfStudy: user.fieldOfStudy,
+        graduationYear: user.graduationYear,
+        institution: user.institution
       };
     case "AMACredential":
       return {
@@ -104,10 +107,9 @@ function buildClaims(type, user) {
       return {
         firstName: user.firstName,
         lastName: user.lastName,
-        npiNumber: user.npiNumber,
         privilegeType: user.privilegeType,
         hospital: user.hospital,
-        expirationDate: user.privilegeExpiration
+        privilegeExpiration: user.privilegeExpiration
       };
     default:
       return {};
@@ -144,7 +146,7 @@ async function requestIssuance(manifestUrl, type) {
   };
 
   // Debug log to confirm which user/claims are being sent
-  console.log(">>> Issuance payload:", JSON.stringify(payload, null, 2));
+  console.log(">>> Active user:", activeUserId, "Claims:", JSON.stringify(payload.claims, null, 2));
 
   const apiUrl = 'https://verifiedid.did.msidentity.com/v1.0/verifiableCredentials/createIssuanceRequest';
   const response = await fetch(apiUrl, {
@@ -208,7 +210,7 @@ addIssuanceRoute(
 addIssuanceRoute(
   'johns-hopkins',
   'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/4c4c7acd-3669-ce88-adc0-3d0ddf7ff728/manifest',
-  'MedicalDoctorCredential'
+  'MedicalDegreeCredential'
 );
 
 addIssuanceRoute(

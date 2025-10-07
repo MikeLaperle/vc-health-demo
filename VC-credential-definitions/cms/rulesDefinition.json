@@ -1,16 +1,20 @@
 {
   "attestations": {
-    "selfIssued": {
-      "mapping": [
-        { "inputClaim": "firstName", "outputClaim": "firstName", "required": true },
-        { "inputClaim": "lastName", "outputClaim": "lastName", "required": true },
-        { "inputClaim": "npiNumber", "outputClaim": "npiNumber", "required": true },
-        { "inputClaim": "cmsProviderId", "outputClaim": "cmsProviderId", "required": true },
-        { "inputClaim": "practiceLocation", "outputClaim": "practiceLocation", "required": false }
-      ],
-      "required": true
-    }
+    "idTokenHints": [
+      {
+        "required": true,
+        "mapping": [
+          { "outputClaim": "firstName", "inputClaim": "firstName" },
+          { "outputClaim": "lastName", "inputClaim": "lastName" },
+          { "outputClaim": "npiNumber", "inputClaim": "npiNumber" },
+          { "outputClaim": "cmsProviderId", "inputClaim": "cmsProviderId" },
+          { "outputClaim": "practiceLocation", "inputClaim": "practiceLocation" }
+        ]
+      }
+    ]
   },
   "validityInterval": 15552000,
-  "vc": { "type": [ "CMSProviderCredential" ] }
+  "vc": {
+    "type": [ "CMSProviderCredential" ]
+  }
 }

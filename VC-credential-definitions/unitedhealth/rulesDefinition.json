@@ -1,40 +1,20 @@
 {
   "attestations": {
-    "selfIssued": {
-      "mapping": [
-        {
-          "inputClaim": "firstName",
-          "outputClaim": "firstName",
-          "required": true
-        },
-        {
-          "inputClaim": "lastName",
-          "outputClaim": "lastName",
-          "required": true
-        },
-        {
-          "inputClaim": "employeeId",
-          "outputClaim": "employeeId",
-          "required": true
-        },
-        {
-          "inputClaim": "department",
-          "outputClaim": "department",
-          "required": false
-        },
-        {
-          "inputClaim": "jobTitle",
-          "outputClaim": "jobTitle",
-          "required": false
-        }
-      ],
-      "required": true
-    }
+    "idTokenHints": [
+      {
+        "required": true,
+        "mapping": [
+          { "outputClaim": "firstName", "inputClaim": "firstName" },
+          { "outputClaim": "lastName", "inputClaim": "lastName" },
+          { "outputClaim": "employeeId", "inputClaim": "employeeId" },
+          { "outputClaim": "department", "inputClaim": "department" },
+          { "outputClaim": "jobTitle", "inputClaim": "jobTitle" }
+        ]
+      }
+    ]
   },
   "validityInterval": 15552000,
   "vc": {
-    "type": [
-      "UnitedHealthEmployeeCredential"
-    ]
+    "type": [ "UnitedHealthEmployeeCredential" ]
   }
 }

@@ -1,25 +1,26 @@
 {
   "locale": "en-US",
   "card": {
-    "title": "Medical Doctor Credential",
-    "issuedBy": "Johns Hopkins Medicine",
+    "title": "Medical Degree Credential",
+    "issuedBy": "Johns Hopkins University",
     "backgroundColor": "#002D72",
     "textColor": "#FFFFFF",
     "logo": {
-      "uri": "https://vcdemoassets.blob.core.windows.net/logos/johnshopkins.png",
+      "uri": "https://vcdemoassets.blob.core.windows.net/logos/jhu.png",
       "description": "Johns Hopkins Logo"
     },
-    "description": "Credential verifying medical doctor status at Johns Hopkins."
+    "description": "Credential verifying a medical degree issued by Johns Hopkins University."
   },
   "consent": {
-    "title": "Accept Medical Doctor Credential",
-    "instructions": "Confirm your doctor details to receive this credential."
+    "title": "Accept Medical Degree Credential",
+    "instructions": "Confirm your degree details to receive this credential."
   },
   "claims": [
     { "claim": "vc.credentialSubject.firstName", "label": "First Name", "type": "String" },
     { "claim": "vc.credentialSubject.lastName", "label": "Last Name", "type": "String" },
-    { "claim": "vc.credentialSubject.npiNumber", "label": "NPI Number", "type": "String" },
-    { "claim": "vc.credentialSubject.specialty", "label": "Specialty", "type": "String" },
-    { "claim": "vc.credentialSubject.hospitalAffiliation", "label": "Hospital Affiliation", "type": "String" }
+    { "claim": "vc.credentialSubject.degreeType", "label": "Degree Type", "type": "String" },
+    { "claim": "vc.credentialSubject.fieldOfStudy", "label": "Field of Study", "type": "String" },
+    { "claim": "vc.credentialSubject.graduationYear", "label": "Graduation Year", "type": "String" },
+    { "claim": "vc.credentialSubject.institution", "label": "Institution", "type": "String" }
   ]
 }
