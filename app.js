@@ -5,8 +5,13 @@ const path = require('path');
 const app = express();
 app.use(express.json());
 
-// Serve static files (your HTML + logos)
+// ------------------------------
+// Static file serving
+// ------------------------------
+// Serve demo HTML + logos
 app.use(express.static(path.join(__dirname, 'public')));
+// Serve manifests so they are reachable at /manifests/*
+app.use('/manifests', express.static(path.join(__dirname, 'manifests')));
 
 // ------------------------------
 // Managed Identity Token Fetch
@@ -26,7 +31,7 @@ async function getAccessToken() {
 async function requestIssuance(manifestUrl, type) {
   const token = await getAccessToken();
   const issuancePayload = {
-    authority: process.env.AUTHORITY_DID, // e.g. did:ion:xyz...
+    authority: process.env.AUTHORITY_DID,
     type: type,
     manifest: manifestUrl,
     callback: {
@@ -54,65 +59,56 @@ async function requestIssuance(manifestUrl, type) {
 // ------------------------------
 // API Routes for Each Credential
 // ------------------------------
-app.post('/api/issue/johns-hopkins', async (req, res) => {
-  try {
-    const result = await requestIssuance(
-      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/johns-hopkins/manifest.json",
-      "MedicalDoctorCredential"
-    );
-    res.json(result);
-  } catch (err) { res.status(500).send(err.message); }
-});
+function addIssuanceRoute(pathSuffix, manifestUrl, type) {
+  // Support both POST (for API clients) and GET (for browser testing)
+  app.post(`/api/issue/${pathSuffix}`, async (req, res) => {
+    try {
+      const result = await requestIssuance(manifestUrl, type);
+      res.json(result);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  });
+  app.get(`/api/issue/${pathSuffix}`, async (req, res) => {
+    try {
+      const result = await requestIssuance(manifestUrl, type);
+      res.json(result);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  });
+}
 
-app.post('/api/issue/florida-license', async (req, res) => {
-  try {
-    const result = await requestIssuance(
-      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/florida-license/manifest.json",
-      "FloridaMedicalLicenseCredential"
-    );
-    res.json(result);
-  } catch (err) { res.status(500).send(err.message); }
-});
-
-app.post('/api/issue/unitedhealth', async (req, res) => {
-  try {
-    const result = await requestIssuance(
-      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/unitedhealth/manifest.json",
-      "UnitedHealthEmployeeCredential"
-    );
-    res.json(result);
-  } catch (err) { res.status(500).send(err.message); }
-});
-
-app.post('/api/issue/ama', async (req, res) => {
-  try {
-    const result = await requestIssuance(
-      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/ama/manifest.json",
-      "AMACredential"
-    );
-    res.json(result);
-  } catch (err) { res.status(500).send(err.message); }
-});
-
-app.post('/api/issue/cms', async (req, res) => {
-  try {
-    const result = await requestIssuance(
-      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/cms/manifest.json",
-      "CMSProviderCredential"
-    );
-    res.json(result);
-  } catch (err) { res.status(500).send(err.message); }
-});
-
-app.post('/api/issue/adventhealth', async (req, res) => {
-  try {
-    const result = await requestIssuance(
-      "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/adventhealth/manifest.json",
-      "SurgicalPrivilegesCredential"
-    );
-    res.json(result);
-  } catch (err) { res.status(500).send(err.message); }
-});
+addIssuanceRoute(
+  "johns-hopkins",
+  "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/johns-hopkins/manifest.json",
+  "MedicalDoctorCredential"
+);
+addIssuanceRoute(
+  "florida-license",
+  "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/florida-license/manifest.json",
+  "FloridaMedicalLicenseCredential"
+);
+addIssuanceRoute(
+  "unitedhealth",
+  "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/unitedhealth/manifest.json",
+  "UnitedHealthEmployeeCredential"
+);
+addIssuanceRoute(
+  "ama",
+  "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/ama/manifest.json",
+  "AMACredential"
+);
+addIssuanceRoute(
+  "cms",
+  "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/cms/manifest.json",
+  "CMSProviderCredential"
+);
+addIssuanceRoute(
+  "adventhealth",
+  "https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/adventhealth/manifest.json",
+  "SurgicalPrivilegesCredential"
+);
 
 // ------------------------------
 // Callback Endpoint
