@@ -8,6 +8,8 @@
     button { background:#005DAA; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; }
     #status { margin-top: 12px; font-size: 0.9rem; }
   </style>
+  <!-- QRCode.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
   <div class="card">
@@ -27,13 +29,29 @@
       if (!response.ok) throw new Error("HTTP " + response.status);
       const data = await response.json();
 
-      // Show QR code if present
+      status.innerHTML = "";
+
       if (data.qrCode) {
+        // If backend ever returns a QR code directly
         const img = document.createElement('img');
         img.src = data.qrCode;
         img.alt = "Scan with Authenticator";
-        status.innerHTML = "";
         status.appendChild(img);
+      } else if (data.url) {
+        // Generate QR code from the URL
+        new QRCode(status, {
+          text: data.url,
+          width: 200,
+          height: 200
+        });
+
+        // Also show a clickable link as fallback
+        const link = document.createElement('a');
+        link.href = data.url;
+        link.textContent = "Open in Authenticator";
+        link.style.display = "block";
+        link.style.marginTop = "10px";
+        status.appendChild(link);
       } else {
         status.textContent = "Got response: " + JSON.stringify(data);
       }
