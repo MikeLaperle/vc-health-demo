@@ -14,34 +14,22 @@ app.use('/manifests', express.static(path.join(__dirname, 'manifests')));
 // ------------------------------
 // Managed Identity Token Fetch (App Service)
 // ------------------------------
-// App Service exposes these environment variables:
-// - IDENTITY_ENDPOINT: base URL for MSI token endpoint
-// - IDENTITY_HEADER: secret header value required by the endpoint
-// We must call: GET {IDENTITY_ENDPOINT}?resource={RESOURCE}&api-version=2019-08-01
-// with header: X-IDENTITY-HEADER: {IDENTITY_HEADER}
 async function getAccessToken() {
   const endpoint = process.env.IDENTITY_ENDPOINT;
   const identityHeader = process.env.IDENTITY_HEADER;
   if (!endpoint || !identityHeader) {
-    throw new Error('Managed Identity is not available: IDENTITY_ENDPOINT or IDENTITY_HEADER missing.');
+    throw new Error('Managed Identity not available (IDENTITY_ENDPOINT/IDENTITY_HEADER missing).');
   }
 
-  // Verified ID service resource (application ID / audience)
-  const resource = '3db474b9-6a0c-4840-96ac-1fceb342124f';
-
+  const resource = '3db474b9-6a0c-4840-96ac-1fceb342124f'; // Verified ID Request Service
   const url = `${endpoint}?resource=${encodeURIComponent(resource)}&api-version=2019-08-01`;
   const response = await fetch(url, { headers: { 'X-IDENTITY-HEADER': identityHeader } });
-
   if (!response.ok) {
     const text = await response.text();
-    console.error('>>> Managed Identity token fetch failed:', text);
+    console.error('>>> MSI token fetch failed:', text);
     throw new Error(text);
   }
-
   const json = await response.json();
-  if (!json.access_token) {
-    throw new Error('Managed Identity token response missing access_token.');
-  }
   return json.access_token;
 }
 
@@ -49,36 +37,38 @@ async function getAccessToken() {
 // Issuance Request Helper
 // ------------------------------
 async function requestIssuance(manifestUrl, type) {
-  console.log(`>>> requestIssuance called for type=${type}`);
+  console.log(`>>> requestIssuance type=${type}`);
 
-  // Validate required env
-  if (!process.env.AUTHORITY_DID) {
-    throw new Error('Missing AUTHORITY_DID in environment.');
-  }
-  if (!process.env.TENANT_ID) {
-    throw new Error('Missing TENANT_ID in environment.');
-  }
+  const authority = process.env.AUTHORITY_DID;
+  if (!authority) throw new Error('Missing AUTHORITY_DID in environment.');
 
   const token = await getAccessToken();
 
-  const issuancePayload = {
-    authority: process.env.AUTHORITY_DID,
-    type: type,
+  const payload = {
+    authority, // from env, should match DID in admin blade
+    type,      // must match contract type exactly
     manifest: manifestUrl,
     callback: {
       url: 'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/api/callback',
-      state: '12345'
+      state: '12345',
+      headers: {
+        // optional: set if you want to validate callbacks
+        'api-key': process.env.CALLBACK_API_KEY || 'demo-api-key'
+      }
+    },
+    registration: {
+      clientName: 'CMS VC Demo'
     }
   };
 
-  const apiUrl = `https://verifiedid.did.msidentity.com/v1.0/${process.env.TENANT_ID}/verifiableCredentials/issuanceRequests`;
+  const apiUrl = 'https://verifiedid.did.msidentity.com/v1.0/verifiableCredentials/createIssuanceRequest';
   const response = await fetch(apiUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
-    body: JSON.stringify(issuancePayload)
+    body: JSON.stringify(payload)
   });
 
   if (!response.ok) {
@@ -86,10 +76,9 @@ async function requestIssuance(manifestUrl, type) {
     console.error('>>> Issuance request failed:', text);
     throw new Error(text);
   }
-
-  console.log('>>> Issuance request succeeded');
   return response.json();
 }
+
 
 // ------------------------------
 // API Routes for Each Credential
@@ -105,7 +94,6 @@ function addIssuanceRoute(pathSuffix, manifestUrl, type) {
       res.status(500).send(err.message);
     }
   });
-
   app.post(`/api/issue/${pathSuffix}`, async (req, res) => {
     console.log(`>>> /api/issue/${pathSuffix} POST called`);
     try {
@@ -118,34 +106,44 @@ function addIssuanceRoute(pathSuffix, manifestUrl, type) {
   });
 }
 
-addIssuanceRoute(
-  'johns-hopkins',
-  'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/johns-hopkins/manifest.json',
-  'MedicalDoctorCredential'
-);
-addIssuanceRoute(
-  'florida-license',
-  'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/florida-license/manifest.json',
-  'FloridaMedicalLicenseCredential'
-);
+// ------------------------------
+// Define each credential route
+// ------------------------------
+// Just replace <contractId> with the actual contract ID from Entra Verified ID
+
 addIssuanceRoute(
   'unitedhealth',
-  'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/unitedhealth/manifest.json',
+  'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/dbd9bb8d-4f0a-ba5c-284a-bdc97fac6db6/manifest',
   'UnitedHealthEmployeeCredential'
 );
+
+addIssuanceRoute(
+  'florida-license',
+  'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/c69b120b-77c5-a63c-b557-ab4675d4e738/manifest',
+  'FloridaMedicalLicenseCredential'
+);
+
+addIssuanceRoute(
+  'johns-hopkins',
+  'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/4c4c7acd-3669-ce88-adc0-3d0ddf7ff728/manifest',
+  'MedicalDoctorCredential'
+);
+
 addIssuanceRoute(
   'ama',
-  'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/ama/manifest.json',
+  'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/e213e5e9-be8a-3480-3a60-0a95fdb7fbd0/manifest',
   'AMACredential'
 );
+
 addIssuanceRoute(
   'cms',
-  'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/cms/manifest.json',
+  'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/4e6c1b0c-249a-94db-385e-4ad51f70712f/manifest',
   'CMSProviderCredential'
 );
+
 addIssuanceRoute(
   'adventhealth',
-  'https://cms-vcdemo-d7a6hehmh8d6akb3.eastus2-01.azurewebsites.net/manifests/adventhealth/manifest.json',
+  'https://verifiedid.did.msidentity.com/v1.0/tenants/36584371-2a86-4e03-afee-c2ba00e5e30e/verifiableCredentials/contracts/3ed996b0-e605-78d1-b10e-12358d94775e/manifest',
   'SurgicalPrivilegesCredential'
 );
 
@@ -155,18 +153,6 @@ addIssuanceRoute(
 app.post('/api/callback', (req, res) => {
   console.log('>>> Callback received:', req.body);
   res.sendStatus(200);
-});
-
-// ------------------------------
-// Debug endpoints (optional)
-// ------------------------------
-app.get('/debug-env', (req, res) => {
-  res.json({
-    AUTHORITY_DID: process.env.AUTHORITY_DID || null,
-    TENANT_ID: process.env.TENANT_ID || null,
-    IDENTITY_ENDPOINT: process.env.IDENTITY_ENDPOINT ? '[present]' : null,
-    IDENTITY_HEADER: process.env.IDENTITY_HEADER ? '[present]' : null
-  });
 });
 
 // ------------------------------
