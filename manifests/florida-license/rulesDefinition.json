@@ -1,0 +1,15 @@
+{
+  "attestations": {
+    "selfIssued": {
+      "claims": [
+        "vc.credentialSubject.fullName",
+        "vc.credentialSubject.licenseNumber",
+        "vc.credentialSubject.expirationDate"
+      ]
+    }
+  },
+  "validityInterval": 15552000,
+  "vc": {
+    "type": ["FloridaMedicalLicenseCredential"]
+  }
+}

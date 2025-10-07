@@ -1,0 +1,17 @@
+{
+  "id": "https://cms-vc-demo.azurewebsites.net/manifests/adventhealth/manifest.json",
+  "issuer": {
+    "authority": "did:web:verifiedid.entra.microsoft.com:36584371-2a86-4e03-afee-c2ba00e5e30e:8b842506-e368-1462-310b-e1c130921354"
+  },
+  "display": {
+    "locale": "en-US",
+    "contract": "https://cms-vc-demo.azurewebsites.net/manifests/adventhealth/displayDefinition.json"
+  },
+  "input": {
+    "rules": "https://cms-vc-demo.azurewebsites.net/manifests/adventhealth/rulesDefinition.json"
+  },
+  "attestations": {
+    "idTokens": [],
+    "presentations": []
+  }
+}

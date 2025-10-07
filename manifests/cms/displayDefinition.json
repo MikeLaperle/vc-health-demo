@@ -1,0 +1,23 @@
+{
+  "locale": "en-US",
+  "card": {
+    "title": "CMS Medical Provider Credential",
+    "issuedBy": "Centers for Medicare & Medicaid Services",
+    "backgroundColor": "#2E8540",
+    "textColor": "#FFFFFF",
+    "logo": {
+      "uri": "https://vcdemoassets.blob.core.windows.net/logos/cms.png",
+      "description": "CMS Logo"
+    },
+    "description": "Credential verifying provider registration with CMS."
+  },
+  "consent": {
+    "title": "Accept CMS Medical Provider Credential",
+    "instructions": "Sign in and confirm provider details to receive this credential."
+  },
+  "claims": [
+    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.npiNumber", "label": "NPI Number", "type": "String" },
+    { "claim": "vc.credentialSubject.providerType", "label": "Provider Type", "type": "String" }
+  ]
+}

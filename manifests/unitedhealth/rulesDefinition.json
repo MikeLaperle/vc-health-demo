@@ -1,0 +1,15 @@
+{
+  "attestations": {
+    "selfIssued": {
+      "claims": [
+        "vc.credentialSubject.fullName",
+        "vc.credentialSubject.employeeId",
+        "vc.credentialSubject.department"
+      ]
+    }
+  },
+  "validityInterval": 15552000,
+  "vc": {
+    "type": ["UnitedHealthEmployeeCredential"]
+  }
+}

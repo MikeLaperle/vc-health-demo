@@ -1,0 +1,15 @@
+{
+  "attestations": {
+    "presentations": [
+      { "credentialType": "MedicalDoctorCredential", "required": true },
+      { "credentialType": "FloridaMedicalLicenseCredential", "required": true },
+      { "credentialType": "UnitedHealthEmployeeCredential", "required": true },
+      { "credentialType": "AMACredential", "required": true },
+      { "credentialType": "CMSProviderCredential", "required": true }
+    ]
+  },
+  "validityInterval": 15552000,
+  "vc": {
+    "type": ["SurgicalPrivilegesCredential"]
+  }
+}

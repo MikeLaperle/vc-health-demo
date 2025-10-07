@@ -1,0 +1,23 @@
+{
+  "locale": "en-US",
+  "card": {
+    "title": "UnitedHealth Employee Credential",
+    "issuedBy": "UnitedHealth Group",
+    "backgroundColor": "#005DAA",
+    "textColor": "#FFFFFF",
+    "logo": {
+      "uri": "https://vcdemoassets.blob.core.windows.net/logos/unitedhealth.png",
+      "description": "UnitedHealth Logo"
+    },
+    "description": "Credential verifying employment at UnitedHealth Group."
+  },
+  "consent": {
+    "title": "Accept UnitedHealth Employee Credential",
+    "instructions": "Sign in and confirm employment details to receive this credential."
+  },
+  "claims": [
+    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.employeeId", "label": "Employee ID", "type": "String" },
+    { "claim": "vc.credentialSubject.department", "label": "Department", "type": "String" }
+  ]
+}

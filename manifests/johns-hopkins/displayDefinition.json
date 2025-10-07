@@ -1,0 +1,23 @@
+{
+  "locale": "en-US",
+  "card": {
+    "title": "Medical Doctor Credential",
+    "issuedBy": "Johns Hopkins School of Medicine",
+    "backgroundColor": "#002D72",
+    "textColor": "#FFFFFF",
+    "logo": {
+      "uri": "https://vcdemoassets.blob.core.windows.net/logos/johns-hopkins.png",
+      "description": "Johns Hopkins Logo"
+    },
+    "description": "Credential verifying graduation from Johns Hopkins School of Medicine."
+  },
+  "consent": {
+    "title": "Accept Medical Doctor Credential",
+    "instructions": "Sign in and confirm details to receive this credential in your wallet."
+  },
+  "claims": [
+    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.degree", "label": "Degree", "type": "String" },
+    { "claim": "vc.credentialSubject.graduationYear", "label": "Graduation Year", "type": "String" }
+  ]
+}

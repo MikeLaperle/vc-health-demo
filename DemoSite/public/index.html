@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verified Credentials Demo Hub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 { margin: 0; }
+    p { margin: 10px 0 20px; }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 40px auto;
+      max-width: 800px;
+    }
+    .menu a {
+      display: block;
+      background: #005DAA;
+      color: #fff;
+      text-decoration: none;
+      margin: 10px;
+      padding: 20px;
+      border-radius: 8px;
+      width: 220px;
+      transition: background 0.3s;
+    }
+    .menu a:hover { background: #003f6f; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Verified Credentials Demo</h1>
+    <p>Select a credential issuer below. Each will open in a new tab with its own branding and issuance flow.</p>
+  </header>
+
+  <div class="menu">
+    <a href="/johns-hopkins" target="_blank">Johns Hopkins<br><small>Medical Doctor Credential</small></a>
+    <a href="/florida-license" target="_blank">Florida Board<br><small>Medical License</small></a>
+    <a href="/unitedhealth" target="_blank">UnitedHealth<br><small>Employee Credential</small></a>
+    <a href="/ama" target="_blank">AMA<br><small>Membership / CEU</small></a>
+    <a href="/cms" target="_blank">CMS<br><small>Provider Credential</small></a>
+    <a href="/adventhealth" target="_blank">AdventHealth<br><small>Surgical Privileges</small></a>
+  </div>
+</body>
+</html>

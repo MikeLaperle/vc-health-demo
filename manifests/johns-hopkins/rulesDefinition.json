@@ -1,0 +1,14 @@
+{
+  "attestations": {
+    "selfIssued": {
+      "claims": [
+        "vc.credentialSubject.fullName",
+        "vc.credentialSubject.degree",
+        "vc.credentialSubject.graduationYear"
+      ]
+    }
+  },
+  "vc": {
+    "type": ["MedicalDoctorCredential"]
+  }
+}

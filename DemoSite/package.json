@@ -1,0 +1,16 @@
+{
+  "name": "cms-vc-demo",
+  "version": "1.0.0",
+  "description": "Azure App Service demo for Verified Credentials issuance (6 issuers, path-based sites).",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

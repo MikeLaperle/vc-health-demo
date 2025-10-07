@@ -1,0 +1,23 @@
+{
+  "locale": "en-US",
+  "card": {
+    "title": "Surgical Privileges Credential",
+    "issuedBy": "AdventHealth Hospital",
+    "backgroundColor": "#006B54",
+    "textColor": "#FFFFFF",
+    "logo": {
+      "uri": "https://vcdemoassets.blob.core.windows.net/logos/adventhealth.png",
+      "description": "AdventHealth Logo"
+    },
+    "description": "Credential verifying surgical privileges at AdventHealth, based on prior verified credentials."
+  },
+  "consent": {
+    "title": "Accept Surgical Privileges Credential",
+    "instructions": "Present required credentials to receive surgical privileges."
+  },
+  "claims": [
+    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.privilegeLevel", "label": "Privilege Level", "type": "String" },
+    { "claim": "vc.credentialSubject.verifiedSources", "label": "Verified Credential Sources", "type": "String" }
+  ]
+}

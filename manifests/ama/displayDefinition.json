@@ -1,0 +1,23 @@
+{
+  "locale": "en-US",
+  "card": {
+    "title": "AMA Verified Credential",
+    "issuedBy": "American Medical Association",
+    "backgroundColor": "#4B2E83",
+    "textColor": "#FFFFFF",
+    "logo": {
+      "uri": "https://vcdemoassets.blob.core.windows.net/logos/ama.png",
+      "description": "AMA Logo"
+    },
+    "description": "Credential verifying AMA membership and CEU completion."
+  },
+  "consent": {
+    "title": "Accept AMA Credential",
+    "instructions": "Sign in and confirm membership details to receive this credential."
+  },
+  "claims": [
+    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.memberId", "label": "AMA Member ID", "type": "String" },
+    { "claim": "vc.credentialSubject.ceuCredits", "label": "CEU Credits Earned", "type": "Number" }
+  ]
+}

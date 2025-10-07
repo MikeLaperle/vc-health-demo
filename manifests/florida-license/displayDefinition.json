@@ -1,0 +1,23 @@
+{
+  "locale": "en-US",
+  "card": {
+    "title": "Florida Medical License",
+    "issuedBy": "Florida State Medical Board",
+    "backgroundColor": "#0072CE",
+    "textColor": "#FFFFFF",
+    "logo": {
+      "uri": "https://vcdemoassets.blob.core.windows.net/logos/florida-medical-board.png",
+      "description": "Florida Medical Board Logo"
+    },
+    "description": "Credential verifying active medical license issued by the State of Florida."
+  },
+  "consent": {
+    "title": "Accept Florida Medical License Credential",
+    "instructions": "Sign in and confirm license details to receive this credential."
+  },
+  "claims": [
+    { "claim": "vc.credentialSubject.fullName", "label": "Full Name", "type": "String" },
+    { "claim": "vc.credentialSubject.licenseNumber", "label": "License Number", "type": "String" },
+    { "claim": "vc.credentialSubject.expirationDate", "label": "Expiration Date", "type": "Date" }
+  ]
+}
