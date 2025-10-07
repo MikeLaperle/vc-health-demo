@@ -234,4 +234,8 @@ app.post('/api/callback', (req, res) => {
 // Start Server
 // ------------------------------
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`CMS-VC-demo running
+app.listen(PORT, () => console.log(`CMS-VC-demo running on port ${PORT}`));
+
+// ------------------------------
+// End of File
+// ------------------------------

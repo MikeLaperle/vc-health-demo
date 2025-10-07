@@ -6,25 +6,43 @@
     body { font-family: Arial, sans-serif; background-color: #0072CE; color: #fff; padding: 60px; }
     .card { background:#fff; color:#000; padding:20px; border-radius:8px; max-width:400px; }
     button { background:#0072CE; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; }
+    #status { margin-top: 12px; font-size: 0.9rem; }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-  <!-- Shared Menu -->
-  <!-- (same nav as above) -->
-
   <div class="card">
-    <img src="/logos/florida-medical-board.png" alt="Florida Medical Board Logo" style="max-width:150px;">
+    <img src="/logos/floridahealth.png" alt="Florida Health Logo" style="max-width:150px;">
     <h2>Florida Medical License</h2>
-    <p>Issued by Florida State Medical Board.</p>
+    <p>Issued by Florida Department of Health.</p>
     <button onclick="startIssuance()">Get Credential</button>
+    <div id="status"></div>
   </div>
 
-  <script>
-    async function startIssuance() {
-      const response = await fetch('/api/issue/florida-license', { method: 'POST' });
+<script>
+  async function startIssuance() {
+    const status = document.getElementById('status');
+    status.textContent = "Requesting issuance payload...";
+    try {
+      const response = await fetch('/api/issue/florida-license');
+      if (!response.ok) throw new Error("HTTP " + response.status);
       const data = await response.json();
-      alert('Issuance started. Scan QR code: ' + data.url);
+      status.innerHTML = "";
+      if (data.url) {
+        new QRCode(status, { text: data.url, width: 200, height: 200 });
+        const link = document.createElement('a');
+        link.href = data.url;
+        link.textContent = "Open in Authenticator";
+        link.style.display = "block";
+        link.style.marginTop = "10px";
+        status.appendChild(link);
+      } else {
+        status.textContent = "Got response: " + JSON.stringify(data);
+      }
+    } catch (err) {
+      status.textContent = "Error: " + err.message;
     }
-  </script>
+  }
+</script>
 </body>
 </html>

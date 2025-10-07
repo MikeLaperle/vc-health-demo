@@ -1,29 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AMA Credential</title>
+  <title>AMA Membership Credential</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #4B2E83; color: #fff; padding: 60px; }
+    body { font-family: Arial, sans-serif; background-color: #6A1B9A; color: #fff; padding: 60px; }
     .card { background:#fff; color:#000; padding:20px; border-radius:8px; max-width:400px; }
-    button { background:#4B2E83; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; }
+    button { background:#6A1B9A; color:#fff; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; }
+    #status { margin-top: 12px; font-size: 0.9rem; }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-  <!-- Shared Menu -->
-
   <div class="card">
     <img src="/logos/ama.png" alt="AMA Logo" style="max-width:150px;">
-    <h2>AMA Credential</h2>
+    <h2>AMA Membership Credential</h2>
     <p>Issued by American Medical Association.</p>
     <button onclick="startIssuance()">Get Credential</button>
+    <div id="status"></div>
   </div>
 
-  <script>
-    async function startIssuance() {
-      const response = await fetch('/api/issue/ama', { method: 'POST' });
+<script>
+  async function startIssuance() {
+    const status = document.getElementById('status');
+    status.textContent = "Requesting issuance payload...";
+    try {
+      const response = await fetch('/api/issue/ama');
+      if (!response.ok) throw new Error("HTTP " + response.status);
       const data = await response.json();
-      alert('Issuance started. Scan QR code: ' + data.url);
+      status.innerHTML = "";
+      if (data.url) {
+        new QRCode(status, { text: data.url, width: 200, height: 200 });
+        const link = document.createElement('a');
+        link.href = data.url;
+        link.textContent = "Open in Authenticator";
+        link.style.display = "block";
+        link.style.marginTop = "10px";
+        status.appendChild(link);
+      } else {
+        status.textContent = "Got response: " + JSON.stringify(data);
+      }
+    } catch (err) {
+      status.textContent = "Error: " + err.message;
     }
-  </script>
+  }
+</script>
 </body>
 </html>
