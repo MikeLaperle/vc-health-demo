@@ -143,6 +143,9 @@ async function requestIssuance(manifestUrl, type) {
     claims: buildClaims(type, user)
   };
 
+  // Debug log to confirm which user/claims are being sent
+  console.log(">>> Issuance payload:", JSON.stringify(payload, null, 2));
+
   const apiUrl = 'https://verifiedid.did.msidentity.com/v1.0/verifiableCredentials/createIssuanceRequest';
   const response = await fetch(apiUrl, {
     method: 'POST',
