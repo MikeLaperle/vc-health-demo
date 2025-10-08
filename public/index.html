@@ -48,7 +48,7 @@
       users.forEach(u => {
         const opt = document.createElement('option');
         opt.value = u.id;
-        opt.textContent = u.displayName;
+        opt.textContent = `${u.firstName} ${u.lastName}`;
         select.appendChild(opt);
       });
     } catch (err) {
