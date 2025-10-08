@@ -1,17 +1,67 @@
 {
   "attestations": {
-    "selfIssued": {
-      "mapping": [
-        { "inputClaim": "firstName", "outputClaim": "firstName", "required": true },
-        { "inputClaim": "lastName", "outputClaim": "lastName", "required": true },
-        { "inputClaim": "npiNumber", "outputClaim": "npiNumber", "required": true },
-        { "inputClaim": "privilegeType", "outputClaim": "privilegeType", "required": true },
-        { "inputClaim": "hospital", "outputClaim": "hospital", "required": true },
-        { "inputClaim": "expirationDate", "outputClaim": "expirationDate", "required": false }
-      ],
-      "required": true
-    }
+    "presentations": [
+      {
+        "credentialType": "UnitedHealthEmployeeCredential",
+        "required": true,
+        "mapping": [
+          { "outputClaim": "employeeId", "inputClaim": "$.vc.credentialSubject.employeeId" },
+          { "outputClaim": "department", "inputClaim": "$.vc.credentialSubject.department" }
+        ]
+      },
+      {
+        "credentialType": "FloridaMedicalLicenseCredential",
+        "required": true,
+        "mapping": [
+          { "outputClaim": "licenseNumber", "inputClaim": "$.vc.credentialSubject.licenseNumber" },
+          { "outputClaim": "licenseType", "inputClaim": "$.vc.credentialSubject.licenseType" },
+          { "outputClaim": "licenseExpiration", "inputClaim": "$.vc.credentialSubject.licenseExpiration" }
+        ]
+      },
+      {
+        "credentialType": "MedicalDegreeCredential",
+        "required": true,
+        "mapping": [
+          { "outputClaim": "degreeType", "inputClaim": "$.vc.credentialSubject.degreeType" },
+          { "outputClaim": "fieldOfStudy", "inputClaim": "$.vc.credentialSubject.fieldOfStudy" },
+          { "outputClaim": "graduationYear", "inputClaim": "$.vc.credentialSubject.graduationYear" },
+          { "outputClaim": "institution", "inputClaim": "$.vc.credentialSubject.institution" }
+        ]
+      },
+      {
+        "credentialType": "AMACredential",
+        "required": true,
+        "mapping": [
+          { "outputClaim": "amaId", "inputClaim": "$.vc.credentialSubject.amaId" },
+          { "outputClaim": "membershipStatus", "inputClaim": "$.vc.credentialSubject.membershipStatus" },
+          { "outputClaim": "membershipLevel", "inputClaim": "$.vc.credentialSubject.membershipLevel" }
+        ]
+      },
+      {
+        "credentialType": "CMSProviderCredential",
+        "required": true,
+        "mapping": [
+          { "outputClaim": "firstName", "inputClaim": "$.vc.credentialSubject.firstName" },
+          { "outputClaim": "lastName", "inputClaim": "$.vc.credentialSubject.lastName" },
+          { "outputClaim": "npiNumber", "inputClaim": "$.vc.credentialSubject.npiNumber" },
+          { "outputClaim": "cmsProviderId", "inputClaim": "$.vc.credentialSubject.cmsProviderId" },
+          { "outputClaim": "practiceLocation", "inputClaim": "$.vc.credentialSubject.practiceLocation" }
+        ]
+      }
+    ],
+    "idTokenHints": [
+      {
+        "required": true,
+        "mapping": [
+          { "outputClaim": "privilegeType", "inputClaim": "privilegeType" },
+          { "outputClaim": "hospital", "inputClaim": "hospital" },
+          { "outputClaim": "privilegeExpiration", "inputClaim": "privilegeExpiration" }
+        ]
+      }
+    ]
   },
   "validityInterval": 15552000,
-  "vc": { "type": [ "SurgicalPrivilegesCredential" ] }
+  "vc": {
+    "type": [ "SurgicalPrivilegesCredential" ]
+  }
 }

@@ -3,24 +3,38 @@
   "card": {
     "title": "Surgical Privileges Credential",
     "issuedBy": "AdventHealth",
-    "backgroundColor": "#0D47A1",
+    "backgroundColor": "#0072CE",
     "textColor": "#FFFFFF",
     "logo": {
       "uri": "https://vcdemoassets.blob.core.windows.net/logos/adventhealth.png",
       "description": "AdventHealth Logo"
     },
-    "description": "Credential verifying surgical privileges at AdventHealth."
+    "description": "Credential verifying surgical privileges at AdventHealth, based on employment, license, degree, AMA membership, and CMS provider status."
   },
   "consent": {
     "title": "Accept Surgical Privileges Credential",
-    "instructions": "Confirm your surgical privileges to receive this credential."
+    "instructions": "Confirm your aggregated credentials and privileges to receive this credential."
   },
   "claims": [
     { "claim": "vc.credentialSubject.firstName", "label": "First Name", "type": "String" },
     { "claim": "vc.credentialSubject.lastName", "label": "Last Name", "type": "String" },
+    { "claim": "vc.credentialSubject.employeeId", "label": "Employee ID", "type": "String" },
+    { "claim": "vc.credentialSubject.department", "label": "Department", "type": "String" },
+    { "claim": "vc.credentialSubject.licenseNumber", "label": "License Number", "type": "String" },
+    { "claim": "vc.credentialSubject.licenseType", "label": "License Type", "type": "String" },
+    { "claim": "vc.credentialSubject.licenseExpiration", "label": "License Expiration", "type": "String" },
+    { "claim": "vc.credentialSubject.degreeType", "label": "Degree Type", "type": "String" },
+    { "claim": "vc.credentialSubject.fieldOfStudy", "label": "Field of Study", "type": "String" },
+    { "claim": "vc.credentialSubject.graduationYear", "label": "Graduation Year", "type": "String" },
+    { "claim": "vc.credentialSubject.institution", "label": "Institution", "type": "String" },
+    { "claim": "vc.credentialSubject.amaId", "label": "AMA ID", "type": "String" },
+    { "claim": "vc.credentialSubject.membershipStatus", "label": "AMA Membership Status", "type": "String" },
+    { "claim": "vc.credentialSubject.membershipLevel", "label": "AMA Membership Level", "type": "String" },
+    { "claim": "vc.credentialSubject.cmsProviderId", "label": "CMS Provider ID", "type": "String" },
+    { "claim": "vc.credentialSubject.practiceLocation", "label": "Practice Location", "type": "String" },
     { "claim": "vc.credentialSubject.npiNumber", "label": "NPI Number", "type": "String" },
     { "claim": "vc.credentialSubject.privilegeType", "label": "Privilege Type", "type": "String" },
     { "claim": "vc.credentialSubject.hospital", "label": "Hospital", "type": "String" },
-    { "claim": "vc.credentialSubject.expirationDate", "label": "Expiration Date", "type": "Date" }
+    { "claim": "vc.credentialSubject.privilegeExpiration", "label": "Privilege Expiration", "type": "String" }
   ]
 }
