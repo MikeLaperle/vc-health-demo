@@ -104,7 +104,7 @@ function buildClaims(type, user) {
         practiceLocation: user.practiceLocation
       };
     default:
-      return {};
+      return {}; // meta credentials like AdventHealth should not get claims
   }
 }
 
@@ -120,6 +120,8 @@ async function requestIssuance(manifestUrl, type) {
   const token = await getAccessToken();
   const user = users.find(u => u.id === activeUserId);
 
+  const claims = buildClaims(type, user);
+
   const payload = {
     authority,
     type,
@@ -133,12 +135,16 @@ async function requestIssuance(manifestUrl, type) {
     },
     registration: {
       clientName: 'CMS VC Demo'
-    },
-    claims: buildClaims(type, user)
+    }
   };
 
-  // Debug log to confirm which user/claims are being sent
-  console.log(">>> Active user:", activeUserId, "Claims:", JSON.stringify(payload.claims, null, 2));
+  // Only attach claims if not empty
+  if (claims && Object.keys(claims).length > 0) {
+    payload.claims = claims;
+  }
+
+  // Debug log
+  console.log(">>> Active user:", activeUserId, "Claims:", JSON.stringify(payload.claims || {}, null, 2));
 
   const apiUrl = 'https://verifiedid.did.msidentity.com/v1.0/verifiableCredentials/createIssuanceRequest';
   const response = await fetch(apiUrl, {
