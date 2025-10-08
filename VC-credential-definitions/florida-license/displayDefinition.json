@@ -2,7 +2,7 @@
   "locale": "en-US",
   "card": {
     "title": "Florida Medical License",
-    "issuedBy": "Florida Department of Health",
+    "issuedBy": "Florida Board of Medicine",
     "backgroundColor": "#0072CE",
     "textColor": "#FFFFFF",
     "logo": {
