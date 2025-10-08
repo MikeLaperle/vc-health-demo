@@ -29,12 +29,6 @@
     { "claim": "vc.credentialSubject.institution", "label": "Institution", "type": "String" },
     { "claim": "vc.credentialSubject.amaId", "label": "AMA ID", "type": "String" },
     { "claim": "vc.credentialSubject.membershipStatus", "label": "AMA Membership Status", "type": "String" },
-    { "claim": "vc.credentialSubject.membershipLevel", "label": "AMA Membership Level", "type": "String" },
-    { "claim": "vc.credentialSubject.cmsProviderId", "label": "CMS Provider ID", "type": "String" },
-    { "claim": "vc.credentialSubject.practiceLocation", "label": "Practice Location", "type": "String" },
-    { "claim": "vc.credentialSubject.npiNumber", "label": "NPI Number", "type": "String" },
-    { "claim": "vc.credentialSubject.privilegeType", "label": "Privilege Type", "type": "String" },
-    { "claim": "vc.credentialSubject.hospital", "label": "Hospital", "type": "String" },
-    { "claim": "vc.credentialSubject.privilegeExpiration", "label": "Privilege Expiration", "type": "String" }
+    { "claim": "vc.credentialSubject.membershipLevel", "label": "AMA Membership Level", "type": "String" }
   ]
 }

@@ -36,27 +36,6 @@
           { "outputClaim": "membershipStatus", "inputClaim": "$.vc.credentialSubject.membershipStatus" },
           { "outputClaim": "membershipLevel", "inputClaim": "$.vc.credentialSubject.membershipLevel" }
         ]
-      },
-      {
-        "credentialType": "CMSProviderCredential",
-        "required": true,
-        "mapping": [
-          { "outputClaim": "firstName", "inputClaim": "$.vc.credentialSubject.firstName" },
-          { "outputClaim": "lastName", "inputClaim": "$.vc.credentialSubject.lastName" },
-          { "outputClaim": "npiNumber", "inputClaim": "$.vc.credentialSubject.npiNumber" },
-          { "outputClaim": "cmsProviderId", "inputClaim": "$.vc.credentialSubject.cmsProviderId" },
-          { "outputClaim": "practiceLocation", "inputClaim": "$.vc.credentialSubject.practiceLocation" }
-        ]
-      }
-    ],
-    "idTokenHints": [
-      {
-        "required": true,
-        "mapping": [
-          { "outputClaim": "privilegeType", "inputClaim": "privilegeType" },
-          { "outputClaim": "hospital", "inputClaim": "hospital" },
-          { "outputClaim": "privilegeExpiration", "inputClaim": "privilegeExpiration" }
-        ]
       }
     ]
   },

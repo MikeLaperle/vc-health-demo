@@ -105,11 +105,6 @@ function buildClaims(type, user) {
       };
     case "SurgicalPrivilegesCredential":
       return {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        privilegeType: user.privilegeType,
-        hospital: user.hospital,
-        privilegeExpiration: user.privilegeExpiration
       };
     default:
       return {};
