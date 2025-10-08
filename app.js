@@ -103,9 +103,6 @@ function buildClaims(type, user) {
         cmsProviderId: user.cmsProviderId,
         practiceLocation: user.practiceLocation
       };
-    case "SurgicalPrivilegesCredential":
-      return {
-      };
     default:
       return {};
   }
