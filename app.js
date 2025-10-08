@@ -104,7 +104,7 @@ function buildClaims(type, user) {
         practiceLocation: user.practiceLocation
       };
     default:
-      return {}; // meta credentials like AdventHealth should not get claims
+      return null; // meta credentials like AdventHealth should not get claims
   }
 }
 
@@ -138,12 +138,11 @@ async function requestIssuance(manifestUrl, type) {
     }
   };
 
-  // Only attach claims if not empty
+  // Only attach claims if not null and not empty
   if (claims && Object.keys(claims).length > 0) {
     payload.claims = claims;
   }
 
-  // Debug log
   console.log(">>> Active user:", activeUserId, "Claims:", JSON.stringify(payload.claims || {}, null, 2));
 
   const apiUrl = 'https://verifiedid.did.msidentity.com/v1.0/verifiableCredentials/createIssuanceRequest';
